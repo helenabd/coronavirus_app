@@ -24,6 +24,7 @@ class API {
         path: 'token',
       );
 
+// Define the endpoint uri based on the endpoint
   Uri endpointUri(Endpoint endpoint) => Uri(
         scheme: 'https',
         host: host,
