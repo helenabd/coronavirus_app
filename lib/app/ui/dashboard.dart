@@ -1,4 +1,4 @@
-// ignore_for_file: depend_on_referenced_packages
+// ignore_for_file: depend_on_referenced_packages, unnecessary_null_comparison
 
 import 'package:coronavirus_app/app/app.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ class Dasheboard extends StatefulWidget {
 }
 
 class _DasheboardState extends State<Dasheboard> {
-  int _cases = 0;
+  EndpointsData _endpointsData = EndpointsData();
 
   @override
   void initState() {
@@ -22,10 +22,9 @@ class _DasheboardState extends State<Dasheboard> {
 
   Future<void> _updateData() async {
     final dataRepository = Provider.of<DataRepository>(context, listen: false);
-    final cases =
-        await dataRepository.getEndpointData(endpoint: Endpoint.cases);
+    final endpointsData = await dataRepository.getAllEndpointData();
     setState(() {
-      _cases = cases;
+      _endpointsData = endpointsData;
     });
   }
 
@@ -39,10 +38,13 @@ class _DasheboardState extends State<Dasheboard> {
         onRefresh: _updateData,
         child: ListView(
           children: [
-            EndpointCard(
-              endpoint: Endpoint.cases,
-              value: (_cases != 0) ? _cases : 0,
-            )
+            for (var endpoint in Endpoint.values)
+              EndpointCard(
+                endpoint: endpoint,
+                value: _endpointsData != null
+                    ? _endpointsData.values![endpoint]!
+                    : null,
+              )
           ],
         ),
       ),

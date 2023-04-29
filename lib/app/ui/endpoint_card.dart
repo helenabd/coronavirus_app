@@ -5,13 +5,21 @@ import 'package:flutter/material.dart';
 
 class EndpointCard extends StatelessWidget {
   final Endpoint endpoint;
-  final int value;
+  final int? value;
 
   const EndpointCard({
     super.key,
     required this.endpoint,
     required this.value,
   });
+
+  static final Map<Endpoint, String> _cardTitles = {
+    Endpoint.cases: 'Cases',
+    Endpoint.casesSuspected: 'Cases Suspected',
+    Endpoint.casesConfirmed: 'Cases Confirmed',
+    Endpoint.deaths: 'Deaths',
+    Endpoint.recovered: 'Recovered',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +32,11 @@ class EndpointCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Cases',
+                _cardTitles[endpoint]!,
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               Text(value != null ? value.toString() : '',
-                  style: Theme.of(context).textTheme.displaySmall)
+                  style: Theme.of(context).textTheme.titleLarge)
             ],
           ),
         ),
