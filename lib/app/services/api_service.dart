@@ -28,7 +28,7 @@ class APIService {
     throw response;
   }
 
-  Future<int> getEndpointData(
+  Future<EndpointData> getEndpointData(
       {required accessToken, required Endpoint endpoint}) async {
     final uri = api.endpointUri(endpoint);
     final response = await http.get(
@@ -41,8 +41,10 @@ class APIService {
       if (data.isNotEmpty) {
         final Map<String, dynamic> endpointData = data[0];
         final String responseJsonKey = _responseJsonKeys[endpoint]!;
-        final int result = endpointData[responseJsonKey];
-        return result;
+        final int value = endpointData[responseJsonKey];
+        final String dateString = endpointData['date'];
+        final date = DateTime.tryParse(dateString);
+        return EndpointData(value: value, date: date);
       }
     }
     log('Request $uri failed \nResponse: ${response.statusCode} ${response.reasonPhrase}');

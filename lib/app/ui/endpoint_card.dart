@@ -64,7 +64,7 @@ class EndpointCard extends StatelessWidget {
                 cardData!.title,
                 style: Theme.of(context)
                     .textTheme
-                    .headline5!
+                    .headlineSmall!
                     .copyWith(color: cardData.color),
               ),
               const SizedBox(height: 8),

@@ -17,9 +17,9 @@ class DataRepository {
     }
   }
 
-  Future<int> getEndpointData({required Endpoint endpoint}) async {
+  Future<EndpointData> getEndpointData({required Endpoint endpoint}) async {
     String accessToken = await apiService.getAccessToken();
-    return await getDataRefreshingToken<int>(
+    return await getDataRefreshingToken<EndpointData>(
         onGetData: () => apiService.getEndpointData(
               accessToken: accessToken,
               endpoint: endpoint,

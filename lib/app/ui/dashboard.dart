@@ -43,7 +43,7 @@ class _DasheboardState extends State<Dasheboard> {
                 EndpointCard(
                   endpoint: endpoint,
                   value: _endpointsData != null
-                      ? _endpointsData.values![endpoint]!
+                      ? _endpointsData.values![endpoint]!.value
                       : null,
                 )
             else
