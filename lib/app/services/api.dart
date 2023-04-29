@@ -1,5 +1,13 @@
 import 'package:coronavirus_app/app/services/api_keys.dart';
 
+enum Endpoint {
+  cases,
+  casesSuspected,
+  casesConfirmed,
+  deaths,
+  recovered,
+}
+
 class API {
   final String apiKey;
 
@@ -15,4 +23,19 @@ class API {
         host: host,
         path: 'token',
       );
+
+  Uri endpointUri(Endpoint endpoint) => Uri(
+        scheme: 'https',
+        host: host,
+        path: _paths[endpoint],
+      );
+
+// Create a map that associate each endpoint to the relative path
+  static final Map<Endpoint, String> _paths = {
+    Endpoint.cases: 'cases',
+    Endpoint.casesSuspected: 'casesSuspected',
+    Endpoint.casesConfirmed: 'casesConfirmed',
+    Endpoint.deaths: 'deaths',
+    Endpoint.recovered: 'recovered',
+  };
 }
