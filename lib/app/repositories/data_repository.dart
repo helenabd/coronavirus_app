@@ -19,4 +19,20 @@ class DataRepository {
       rethrow;
     }
   }
+
+  Future<void> _getAllEndpointsData() async {
+    String accessToken = await apiService.getAccessToken();
+    await Future.wait([
+      apiService.getEndpointData(
+          accessToken: accessToken, endpoint: Endpoint.cases),
+      apiService.getEndpointData(
+          accessToken: accessToken, endpoint: Endpoint.casesSuspected),
+      apiService.getEndpointData(
+          accessToken: accessToken, endpoint: Endpoint.casesConfirmed),
+      apiService.getEndpointData(
+          accessToken: accessToken, endpoint: Endpoint.deaths),
+      apiService.getEndpointData(
+          accessToken: accessToken, endpoint: Endpoint.recovered),
+    ]);
+  }
 }
