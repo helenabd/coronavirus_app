@@ -20,9 +20,9 @@ class DataRepository {
     }
   }
 
-  Future<void> _getAllEndpointsData() async {
+  Future<EndpointsData> _getAllEndpointsData() async {
     String accessToken = await apiService.getAccessToken();
-    await Future.wait([
+    final values = await Future.wait([
       apiService.getEndpointData(
           accessToken: accessToken, endpoint: Endpoint.cases),
       apiService.getEndpointData(
@@ -34,5 +34,13 @@ class DataRepository {
       apiService.getEndpointData(
           accessToken: accessToken, endpoint: Endpoint.recovered),
     ]);
+
+    return EndpointsData(values: {
+      Endpoint.cases: values[0],
+      Endpoint.casesSuspected: values[1],
+      Endpoint.casesConfirmed: values[2],
+      Endpoint.deaths: values[3],
+      Endpoint.recovered: values[4],
+    });
   }
 }
