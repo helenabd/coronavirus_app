@@ -3,8 +3,12 @@
 import 'package:coronavirus_app/app/app.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  Intl.defaultLocale = 'pt-BR';
+  await initializeDateFormatting();
   runApp(const MyApp());
 }
 

@@ -30,27 +30,41 @@ class _DasheboardState extends State<Dasheboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Coronavirus Tracker'),
-      ),
-      body: RefreshIndicator(
-        onRefresh: _updateData,
-        child: ListView(
-          children: [
-            if (_endpointsData.values != null)
-              for (var endpoint in Endpoint.values)
-                EndpointCard(
-                  endpoint: endpoint,
-                  value: _endpointsData != null
-                      ? _endpointsData.values![endpoint]!.value
-                      : null,
-                )
-            else
-              Container()
-          ],
+    if (_endpointsData.values != null) {
+      final date = _endpointsData != null
+          ? _endpointsData.values![Endpoint.cases]!.date
+          : null;
+      final formatter = LastUpdatedDateFormatter(lastUpdated: date!);
+      final lastDate = formatter.lastUpdatedStatusText();
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Coronavirus Tracker'),
         ),
-      ),
-    );
+        body: RefreshIndicator(
+          onRefresh: _updateData,
+          child: ListView(
+            children: [
+              LastUpdatedStatusText(text: lastDate),
+              if (_endpointsData.values != null)
+                for (var endpoint in Endpoint.values)
+                  EndpointCard(
+                    endpoint: endpoint,
+                    value: _endpointsData != null
+                        ? _endpointsData.values![endpoint]!.value
+                        : null,
+                  )
+              else
+                Container()
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Scaffold(
+          appBar: AppBar(
+            title: const Text('Coronavirus Tracker'),
+          ),
+          body: Container());
+    }
   }
 }

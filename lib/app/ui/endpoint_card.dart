@@ -1,7 +1,8 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, depend_on_referenced_packages
 
 import 'package:coronavirus_app/app/app.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EndpointCardData {
   final String title;
@@ -48,6 +49,13 @@ class EndpointCard extends StatelessWidget {
         color: const Color(0xFF70A901)),
   };
 
+  String get formattedValue {
+    if (value == null) {
+      return '';
+    }
+    return NumberFormat('#,###,###,###').format(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     final cardData = _cardsData[endpoint];
@@ -75,7 +83,7 @@ class EndpointCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(cardData.assetName, color: cardData.color),
-                    Text(value != null ? value.toString() : '',
+                    Text(formattedValue,
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium!
