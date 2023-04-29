@@ -31,8 +31,13 @@ class _DasheboardState extends State<Dasheboard> {
       setState(() {
         _endpointsData = endpointsData;
       });
-    } on SocketException catch (e) {
-      log(e.toString());
+    } on SocketException catch (_) {
+      showAlertDialog(
+        context: context,
+        title: 'Connection Error',
+        content: 'Could not retrieve data. Please try again later.',
+        defaultActionText: 'OK',
+      );
     }
   }
 
