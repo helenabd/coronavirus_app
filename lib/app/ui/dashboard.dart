@@ -1,5 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages, unnecessary_null_comparison
 
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:coronavirus_app/app/app.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,11 +24,16 @@ class _DasheboardState extends State<Dasheboard> {
   }
 
   Future<void> _updateData() async {
-    final dataRepository = Provider.of<DataRepository>(context, listen: false);
-    final endpointsData = await dataRepository.getAllEndpointData();
-    setState(() {
-      _endpointsData = endpointsData;
-    });
+    try {
+      final dataRepository =
+          Provider.of<DataRepository>(context, listen: false);
+      final endpointsData = await dataRepository.getAllEndpointData();
+      setState(() {
+        _endpointsData = endpointsData;
+      });
+    } on SocketException catch (e) {
+      log(e.toString());
+    }
   }
 
   @override
