@@ -50,13 +50,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _accessToken = '';
+  int _cases = 0;
+  int _deaths = 0;
 
   void _updateAccessToken() async {
     final apiService = APIService(API.sandbox());
     final accessToken = await apiService.getAccessToken();
+    final deaths = await apiService.getEndpointData(
+      accessToken: accessToken,
+      endpoint: Endpoint.deaths,
+    );
+    final cases = await apiService.getEndpointData(
+      accessToken: accessToken,
+      endpoint: Endpoint.cases,
+    );
     setState(() {
-      _accessToken = accessToken;
+      _deaths = deaths;
+      _cases = cases;
     });
   }
 
@@ -97,10 +107,16 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_accessToken',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            if (_cases != 0)
+              Text(
+                'Cases: $_cases',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            if (_deaths != 0)
+              Text(
+                'Deaths: $_deaths',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
           ],
         ),
       ),
