@@ -51,9 +51,9 @@ class _DasheboardState extends State<Dasheboard> {
 
   @override
   Widget build(BuildContext context) {
-    if (_endpointsData.values != null) {
+    if (_endpointsData.values!.isNotEmpty) {
       final date = _endpointsData != null
-          ? _endpointsData.values![Endpoint.cases]!.date
+          ? _endpointsData.values![Endpoint.cases]?.date
           : null;
       final formatter = LastUpdatedDateFormatter(lastUpdated: date!);
       final lastDate = formatter.lastUpdatedStatusText();
@@ -71,7 +71,7 @@ class _DasheboardState extends State<Dasheboard> {
                   EndpointCard(
                     endpoint: endpoint,
                     value: _endpointsData != null
-                        ? _endpointsData.values![endpoint]!.value
+                        ? _endpointsData.values![endpoint]?.value
                         : null,
                   )
               else

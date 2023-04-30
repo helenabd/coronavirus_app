@@ -18,7 +18,7 @@ class DataCacheServices {
       final value =
           sharedPreferences.getInt(endpointValueKey(endpoint: endpoint));
       final dateString =
-          sharedPreferences.getString(endpointValueKey(endpoint: endpoint));
+          sharedPreferences.getString(endpointDateKey(endpoint: endpoint));
       if (value != null && dateString != null) {
         final date = DateTime.tryParse(dateString);
         values[endpoint] = EndpointData(value: value, date: date);
@@ -34,7 +34,7 @@ class DataCacheServices {
         endpointData.value,
       );
       await sharedPreferences.setString(
-        endpointValueKey(endpoint: endpoint),
+        endpointDateKey(endpoint: endpoint),
         endpointData.date!.toIso8601String(),
       );
     });
