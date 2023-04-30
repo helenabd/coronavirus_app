@@ -1,6 +1,5 @@
 // ignore_for_file: depend_on_referenced_packages, unnecessary_null_comparison
 
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:coronavirus_app/app/app.dart';
