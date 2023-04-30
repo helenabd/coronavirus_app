@@ -4,9 +4,13 @@ import 'package:coronavirus_app/app/app.dart';
 import 'package:http/http.dart';
 
 class DataRepository {
-  DataRepository({required this.apiService});
+  DataRepository({
+    required this.apiService,
+    required this.dataCacheServices,
+  });
 
   final APIService apiService;
+  final DataCacheServices dataCacheServices;
 
   Future<T> getDataRefreshingToken<T>(
       {required Future<T> Function() onGetData}) async {
@@ -17,6 +21,8 @@ class DataRepository {
     }
   }
 
+  EndpointsData getAllEndpointsCachedData() => dataCacheServices.getData();
+
   Future<EndpointData> getEndpointData({required Endpoint endpoint}) async {
     String accessToken = await apiService.getAccessToken();
     return await getDataRefreshingToken<EndpointData>(
@@ -26,9 +32,14 @@ class DataRepository {
             ));
   }
 
-  Future<EndpointsData> getAllEndpointData() async =>
-      await getDataRefreshingToken<EndpointsData>(
-          onGetData: _getAllEndpointsData);
+  Future<EndpointsData> getAllEndpointData() async {
+    final endpointsData = await getDataRefreshingToken<EndpointsData>(
+      onGetData: _getAllEndpointsData,
+    );
+    // save to cache
+    await dataCacheServices.setData(endpointsData);
+    return endpointsData;
+  }
 
   Future<EndpointsData> _getAllEndpointsData() async {
     String accessToken = await apiService.getAccessToken();

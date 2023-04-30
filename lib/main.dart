@@ -20,8 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<DataRepository>(
       create: (_) => DataRepository(
-        apiService: APIService(API.sandbox()),
-      ),
+          apiService: APIService(API.sandbox()),
+          dataCacheServices:
+              DataCacheServices(sharedPreferences: sharedPreferences)),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Coronavirus Tracker',
